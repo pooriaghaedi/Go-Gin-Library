@@ -10,13 +10,15 @@ import (
 
 	// "gorm.io/driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
-	"gorm.io/gorm"
+
+	"github.com/jinzhu/gorm"
 )
 
 var db *gorm.DB
 var err error
 
 type book struct {
+	gorm.Model
 	ID        uint      `json:"id"`
 	Name      string    `json:"name"`
 	IBSN      string    `json:"ibsn"`
@@ -75,6 +77,7 @@ func getBookByID(c *gin.Context) {
 
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
+	var db = gorm.DB{}
 	id := c.Params.ByName("id")
 	var books book
 	if err := db.Where("id = ?", id).First(&books).Error; err != nil {
@@ -87,14 +90,7 @@ func getBooks(c *gin.Context) {
 }
 
 func main() {
-	// db, _ = gorm.Open("mysql", "root:'PaS$Wd'@tcp(127.0.0.1:3306)/library?charset=utf8&parseTime=True&loc=Local")
-	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-	// db.AutoMigrate(&book{})
+	initDb()
 	router := gin.Default()
 	router.GET("/v1/books", getBooks)
 	router.POST("/v1/books", postBooks)
@@ -102,4 +98,15 @@ func main() {
 	// router.DELETE("/v1/books/:id", deleteBook)
 
 	router.Run("0.0.0.0:8080")
+}
+
+func initDb() {
+	var err error
+	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	// db.AutoMigrate(&Models.BookModel{})
 }
