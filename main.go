@@ -90,7 +90,7 @@ func main() {
 	router.GET("/v1/books", getBooks)
 	router.POST("/v1/books", postBooks)
 	router.GET("/v1/books/:id", getBookByID)
-	router.DELETE("/v1/books/:id", deleteBook)
+	// router.DELETE("/v1/books/:id", deleteBook)
 
 	router.Run("0.0.0.0:8080")
 }
