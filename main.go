@@ -14,7 +14,7 @@ var db *gorm.DB
 var err error
 
 type book struct {
-	ID        string    `json:"id"`
+	ID        int       `json:"id"`
 	Name      string    `json:"name"`
 	IBSN      string    `json:"ibsn"`
 	Author    string    `json:"author"`
@@ -27,7 +27,7 @@ type book struct {
 }
 
 var books = []book{
-	{ID: "1", Name: "Networking and Kubernetes", IBSN: "978-1492081654", Author: "James Strong", Publisher: "O'Rielly", Category: "DevOps"},
+	{ID: 1, Name: "Networking and Kubernetes", IBSN: "978-1492081654", Author: "James Strong", Publisher: "O'Rielly", Category: "DevOps"},
 }
 
 var deletedBooks = []book{}
