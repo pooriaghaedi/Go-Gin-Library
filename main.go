@@ -1,10 +1,11 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
+
+	"go-gin-library/config"
 
 	"github.com/gin-gonic/gin"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var db *gorm.DB
 var err error
 
 type book struct {
@@ -77,25 +77,14 @@ func getBookByID(c *gin.Context) {
 
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
-	var db = gorm.DB{}
-	// id := c.Params.ByName("id")
-	var books book
-	// db.Where("id = ?", id).First(books)
-	db.First(&books.ID, 1)
-	// if err := db.Where("id = 1").First(&books).Error; err != nil {
-	// 	// error handling...
-	// }
-	// if err := db.Where("id = ?", id).First(&books).Error; err != nil {
-	// 	c.AbortWithStatus(404)
-	// 	fmt.Println(err)
-	// } else {
-	// 	c.JSON(200, books)
-	// }
-	c.JSON(200, books)
+	var Books []book
+	db.Find(&Books)
+	c.IndentedJSON(http.StatusAccepted, Books)
+
 }
 
 func main() {
-	initDb()
+
 	router := gin.Default()
 	router.GET("/v1/books", getBooks)
 	router.POST("/v1/books", postBooks)
@@ -105,15 +94,10 @@ func main() {
 	router.Run("0.0.0.0:8080")
 }
 
-func initDb() {
-	var err error
-	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("connection stablished")
-	}
-	defer db.Close()
-	// db.AutoMigrate(&Models.BookModel{})
+var db *gorm.DB
+
+func init() {
+	config.Connect()
+	db = config.GetDB()
+	db.AutoMigrate(&book{})
 }
