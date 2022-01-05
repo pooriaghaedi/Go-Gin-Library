@@ -1,12 +1,15 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
+
+	// "gorm.io/driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -67,7 +70,7 @@ func getBookByID(c *gin.Context) {
 		c.IndentedJSON(http.StatusCreated, getbookbyid)
 	}
 
-	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
+	// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
 }
 
 // getUsers responds with the list of all Users as JSON.
@@ -86,17 +89,12 @@ func getBooks(c *gin.Context) {
 func main() {
 	// db, _ = gorm.Open("mysql", "root:'PaS$Wd'@tcp(127.0.0.1:3306)/library?charset=utf8&parseTime=True&loc=Local")
 	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
-	db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	// defer db.Close()
-	// if err != nil {
-	// 	return nil, err
-	// }else {
-	// 	fmt.Println("Connection Established")
-	// }
-
-	// db.AutoMigrate(&books)
-
-	db.AutoMigrate(&book{})
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	// db.AutoMigrate(&book{})
 	router := gin.Default()
 	router.GET("/v1/books", getBooks)
 	router.POST("/v1/books", postBooks)
