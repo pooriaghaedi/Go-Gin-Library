@@ -26,9 +26,9 @@ type book struct {
 	DeletedAt time.Time `json:"deleted_at"`
 }
 
-var books = []book{
-	{ID: 1, Name: "Networking and Kubernetes", IBSN: "978-1492081654", Author: "James Strong", Publisher: "O'Rielly", Category: "DevOps"},
-}
+// var books = []book{
+// 	{ID: 1, Name: "Networking and Kubernetes", IBSN: "978-1492081654", Author: "James Strong", Publisher: "O'Rielly", Category: "DevOps"},
+// }
 
 var deletedBooks = []book{}
 
@@ -60,7 +60,7 @@ func postBooks(c *gin.Context) {
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 	var getbookbyid book
-	if err := db.Where("id = ?", id).First(&books).Error; err != nil {
+	if err := db.Where("id = ?", id).First(&getbookbyid).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
