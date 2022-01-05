@@ -88,9 +88,12 @@ func main() {
 	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Connection Failed to Open: %v", err)
+	} else {
+		fmt.Println("Connection Established")
 	}
-	db.AutoMigrate(&books)
+
+	// db.AutoMigrate(&books)
 
 	db.AutoMigrate(&book{})
 	router := gin.Default()
