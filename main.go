@@ -78,9 +78,13 @@ func getBookByID(c *gin.Context) {
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
 	var db = gorm.DB{}
-	id := c.Params.ByName("id")
+	// id := c.Params.ByName("id")
 	var books book
-	db.Where("id = ?", id).First(books)
+	// db.Where("id = ?", id).First(books)
+	db.First(&books, 1)
+	// if err := db.Where("id = 1").First(&books).Error; err != nil {
+	// 	// error handling...
+	// }
 	// if err := db.Where("id = ?", id).First(&books).Error; err != nil {
 	// 	c.AbortWithStatus(404)
 	// 	fmt.Println(err)
