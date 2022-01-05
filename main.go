@@ -86,12 +86,13 @@ func getBooks(c *gin.Context) {
 func main() {
 	// db, _ = gorm.Open("mysql", "root:'PaS$Wd'@tcp(127.0.0.1:3306)/library?charset=utf8&parseTime=True&loc=Local")
 	dsn := "lib:test123321@tcp(10.19.0.8:3306)/library?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Printf("Connection Failed to Open: %v", err)
-	} else {
-		fmt.Println("Connection Established")
-	}
+	db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// defer db.Close()
+	// if err != nil {
+	// 	return nil, err
+	// }else {
+	// 	fmt.Println("Connection Established")
+	// }
 
 	// db.AutoMigrate(&books)
 
