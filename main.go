@@ -14,7 +14,7 @@ var db *gorm.DB
 var err error
 
 type book struct {
-	ID        int       `json:"id"`
+	ID        uint       `json:"id"`
 	Name      string    `json:"name"`
 	IBSN      string    `json:"ibsn"`
 	Author    string    `json:"author"`
@@ -45,39 +45,28 @@ func postBooks(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newBook)
 }
 
-func deleteBook(c *gin.Context) {
-	id := c.Param("id")
-	var deleteBook book
-	currentTime := time.Now()
+// func deleteBook(c *gin.Context) {
+// 	id := c.Param("id")
+// 	var deleteBook book
+// 	currentTime := time.Now()
 
-	// if err := c.BindJSON(&deleteBook); err != nil {
-	// 	fmt.Printf("error")
-	// 	return
-	// }
+// 	// if err := c.BindJSON(&deleteBook); err != nil {
+// 	// 	fmt.Printf("error")
+// 	// 	return
 
-	for _, a := range books {
-		if a.ID == id {
-			a.DeletedAt = currentTime
-			fmt.Println(currentTime.Format("2017-09-07 17:06:06"))
-			c.IndentedJSON(http.StatusAccepted, deleteBook)
-			return
-		}
-	}
-	// Add the new book to the slice.
 
-	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
-}
+// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
+// }
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
-
-	// Loop over the list of users, looking for
-	// an user whose ID value matches the parameter.
-	for _, a := range books {
-		if a.ID == id {
-			c.IndentedJSON(http.StatusOK, a)
-			return
-		}
+	var getbookbyid book
+	if err := db.Where("id = ?", id).First(&books).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		c.IndentedJSON(http.StatusCreated, getbookbyid)
 	}
+
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
 }
 
