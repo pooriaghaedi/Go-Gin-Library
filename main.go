@@ -81,7 +81,7 @@ func getBooks(c *gin.Context) {
 	// id := c.Params.ByName("id")
 	var books book
 	// db.Where("id = ?", id).First(books)
-	db.First(&books, 1)
+	db.First(&books.ID, 1)
 	// if err := db.Where("id = 1").First(&books).Error; err != nil {
 	// 	// error handling...
 	// }
