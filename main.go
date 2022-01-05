@@ -39,9 +39,10 @@ func postBooks(c *gin.Context) {
 	if err := c.BindJSON(&newBook); err != nil {
 		return
 	}
+	c.BindJSON(&newBook)
 
-	// Add the new book to the slice.
-	books = append(books, newBook)
+	db.Create(&newBook)
+
 	c.IndentedJSON(http.StatusCreated, newBook)
 }
 
