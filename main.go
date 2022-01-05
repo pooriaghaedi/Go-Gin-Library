@@ -83,6 +83,7 @@ func getBookByID(c *gin.Context) {
 
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
+	db.Create(&books)
 	c.IndentedJSON(http.StatusOK, books)
 }
 
