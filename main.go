@@ -107,6 +107,8 @@ func initDb() {
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		panic(err)
+	} else {
+		fmt.Println("connection stablished")
 	}
 	defer db.Close()
 	// db.AutoMigrate(&Models.BookModel{})
