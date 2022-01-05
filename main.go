@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/pooriaghaedi/Go-Gin-Library/config"
+	"go-gin-library/config"
 
 	"github.com/gin-gonic/gin"
 
