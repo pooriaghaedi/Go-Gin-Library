@@ -80,13 +80,14 @@ func getBooks(c *gin.Context) {
 	var db = gorm.DB{}
 	id := c.Params.ByName("id")
 	var books book
-	if err := db.Where("id = ?", id).First(&books).Error; err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
-	} else {
-		c.JSON(200, books)
-	}
-
+	db.Where("id = ?", id).First(&books)
+	// if err := db.Where("id = ?", id).First(&books).Error; err != nil {
+	// 	c.AbortWithStatus(404)
+	// 	fmt.Println(err)
+	// } else {
+	// 	c.JSON(200, books)
+	// }
+	c.JSON(200, books)
 }
 
 func main() {
