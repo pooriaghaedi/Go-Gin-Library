@@ -65,7 +65,7 @@ func postBooks(c *gin.Context) {
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 	var getbookbyid book
-	if err := db.Where("id = ?", id).First(&getbookbyid).Error; err != nil {
+	if err := db.Where("id = ?", id).First(getbookbyid).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
@@ -80,7 +80,7 @@ func getBooks(c *gin.Context) {
 	var db = gorm.DB{}
 	id := c.Params.ByName("id")
 	var books book
-	db.Where("id = ?", id).First(&books)
+	db.Where("id = ?", id).First(books)
 	// if err := db.Where("id = ?", id).First(&books).Error; err != nil {
 	// 	c.AbortWithStatus(404)
 	// 	fmt.Println(err)
