@@ -14,7 +14,7 @@ var db *gorm.DB
 var err error
 
 type book struct {
-	ID        uint       `json:"id"`
+	ID        uint      `json:"id"`
 	Name      string    `json:"name"`
 	IBSN      string    `json:"ibsn"`
 	Author    string    `json:"author"`
@@ -55,7 +55,6 @@ func postBooks(c *gin.Context) {
 // 	// 	fmt.Printf("error")
 // 	// 	return
 
-
 // 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
 // }
 func getBookByID(c *gin.Context) {
@@ -73,8 +72,15 @@ func getBookByID(c *gin.Context) {
 
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
-	db.Create(&books)
-	c.IndentedJSON(http.StatusOK, books)
+	var books book
+	if err := db.Find(&books).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		// c.JSON(200, books)
+		c.IndentedJSON(http.StatusOK, books)
+	}
+
 }
 
 func main() {
