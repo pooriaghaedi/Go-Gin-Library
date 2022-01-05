@@ -36,9 +36,9 @@ var deletedBooks = []book{}
 func postBooks(c *gin.Context) {
 	var newBook book
 
-	if err := c.BindJSON(&newBook); err != nil {
-		return
-	}
+	// if err := c.BindJSON(&newBook); err != nil {
+	// 	return
+	// }
 	c.BindJSON(&newBook)
 
 	db.Create(&newBook)
