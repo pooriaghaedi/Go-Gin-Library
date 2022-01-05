@@ -93,6 +93,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	db.AutoMigrate(&books)
 
 	db.AutoMigrate(&book{})
 	router := gin.Default()
