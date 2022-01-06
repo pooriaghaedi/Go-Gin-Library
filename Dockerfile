@@ -9,7 +9,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY *.go ./
-
+RUN go get -d ./...
 RUN go build -o /docker-go-gin
 
 EXPOSE 8080
