@@ -68,7 +68,7 @@ func getBookByID(c *gin.Context) {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
-		c.IndentedJSON(http.StatusAccepted, getbookbyid)
+		c.IndentedJSON(http.StatusOK, getbookbyid)
 	}
 
 	// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
