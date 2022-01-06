@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM golang:1.17-alpine
-
+RUN apk add git
 WORKDIR /app
 
 COPY go.mod ./
