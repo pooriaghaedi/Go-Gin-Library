@@ -77,13 +77,11 @@ func getBookByID(c *gin.Context) {
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
 	var Books []book
-	db.Find(&Books)
-	if err := c.BindJSON(Books); err != nil {
-		fmt.Printf("error %v \n", err)
+	if err := db.Find(&Books).Error; err != nil {
 		c.AbortWithStatus(404)
-		return
+		fmt.Println(err)
 	} else {
-		c.IndentedJSON(http.StatusAccepted, Books)
+		c.JSON(200, Books)
 	}
 
 }
