@@ -17,7 +17,7 @@ var err error
 
 type book struct {
 	gorm.Model
-	ID        uint   `json:"id"`
+	// ID        uint   `json:"id"`
 	Name      string `json:"name"`
 	IBSN      string `json:"ibsn"`
 	Author    string `json:"author"`
