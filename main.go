@@ -64,11 +64,11 @@ func postBooks(c *gin.Context) {
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 	var getbookbyid book
-	if err := db.Where("id = ?", id).First(getbookbyid).Error; err != nil {
+	if err := db.Where("id = ?", id).First(&getbookbyid).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
-		c.IndentedJSON(http.StatusCreated, getbookbyid)
+		c.IndentedJSON(http.StatusAccepted, getbookbyid)
 	}
 
 	// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
@@ -83,7 +83,6 @@ func getBooks(c *gin.Context) {
 	} else {
 		c.JSON(200, Books)
 	}
-
 }
 
 func main() {
