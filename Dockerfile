@@ -4,7 +4,7 @@ FROM golang:1.17-alpine
 
 # RUN apk add git
 WORKDIR /app
-ENV GOPATH="$(pwd)/config:$(pwd)"
+ENV GOPATH="/app/config:/app"
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
