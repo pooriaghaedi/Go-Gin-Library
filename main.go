@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pooriaghaedi/Go-Gin-Library/config"
@@ -18,16 +17,16 @@ var err error
 
 type book struct {
 	gorm.Model
-	ID        uint      `json:"id"`
-	Name      string    `json:"name"`
-	IBSN      string    `json:"ibsn"`
-	Author    string    `json:"author"`
-	Publisher string    `json:"publisher"`
-	Category  string    `json:"category"`
-	Photo     string    `json:"photo"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	ID        uint   `json:"id"`
+	Name      string `json:"name"`
+	IBSN      string `json:"ibsn"`
+	Author    string `json:"author"`
+	Publisher string `json:"publisher"`
+	Category  string `json:"category"`
+	Photo     string `json:"photo"`
+	// CreatedAt time.Time `json:"created_at"`
+	// UpdatedAt time.Time `json:"updated_at"`
+	// DeletedAt time.Time `json:"deleted_at"`
 }
 
 // var books = []book{
@@ -39,10 +38,6 @@ var deletedBooks = []book{}
 // postusers adds an user from JSON received in the request body.
 func postBooks(c *gin.Context) {
 	var newBook book
-
-	// if err := c.BindJSON(&newBook); err != nil {
-	// 	return
-	// }
 	c.BindJSON(&newBook)
 
 	db.Create(&newBook)
