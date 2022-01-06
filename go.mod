@@ -1,4 +1,4 @@
-module go-gin-library
+module github.com/pooriaghaedi/Go-Gin-Library
 
 go 1.17
 

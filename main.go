@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"go-gin-library/config"
-
 	"github.com/gin-gonic/gin"
+	"github.com/pooriaghaedi/Go-Gin-Library/config"
 
 	// "gorm.io/driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
