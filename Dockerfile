@@ -9,7 +9,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-COPY *.go ./
+COPY ./ /app
 
 RUN go build -o /docker-go-gin
 
