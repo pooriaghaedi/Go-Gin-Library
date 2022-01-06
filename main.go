@@ -78,7 +78,7 @@ func getBookByID(c *gin.Context) {
 func getBooks(c *gin.Context) {
 	var Books []book
 	db.Find(&Books)
-	if err := c.BindJSON(&Books); err != nil {
+	if err := c.BindJSON(Books); err != nil {
 		fmt.Printf("error %v \n", err)
 		c.AbortWithStatus(404)
 		return
