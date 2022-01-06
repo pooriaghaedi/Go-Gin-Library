@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
 FROM golang:1.17-alpine
-RUN export GOPATH="$(pwd)/config:$(pwd)"
-RUN apk add git
+ENV GOPATH="$(pwd)/config:$(pwd)"
+# RUN apk add git
 WORKDIR /app
 
 COPY go.mod ./
