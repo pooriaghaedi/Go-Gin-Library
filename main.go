@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
-	"github.com/pooriaghaedi/Go-Gin-Library/config"
-
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/pooriaghaedi/Go-Gin-Library/config"
 )
 
 var err error
