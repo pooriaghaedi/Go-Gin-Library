@@ -116,13 +116,13 @@ func main() {
 
 	router := gin.Default()
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
-	// router.Static("/", "./public")
 	router.GET("/v1/books/", getBooks)
 	router.POST("/v1/books/", postBooks)
 	router.GET("/v1/books/:id", getBookByID)
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
 	router.PUT("/v1/upload/:id", UploadBookcover)
+	router.Static("/", "./public")
 
 	router.Run("0.0.0.0:8080")
 }
