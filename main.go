@@ -49,12 +49,8 @@ func postBooks(c *gin.Context) {
 func deleteBook(c *gin.Context) {
 	id := c.Param("id")
 	var deleteBook book
-	if err := db.Where("id = ?", id).Delete(&deleteBook); err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
-	} else {
-		c.JSON(200, gin.H{"id #" + id: "deleted"})
-	}
+	db.Where("id = ?", id).Delete(&deleteBook)
+	c.JSON(200, gin.H{"id #" + id: "deleted"})
 
 }
 func getBookByID(c *gin.Context) {
