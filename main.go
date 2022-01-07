@@ -97,7 +97,7 @@ func getBooks(c *gin.Context) {
 func UploadBookcover(c *gin.Context) {
 	var Book book
 	id := c.Params.ByName("id")
-
+	fmt.Println(id)
 	// Source
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -114,6 +114,7 @@ func UploadBookcover(c *gin.Context) {
 	db.Save(&Book)
 	c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 }
+
 func Download(n string) (string, []byte, error) {
 	dst := fmt.Sprintf("%s/%s", "public", n)
 	b, err := ioutil.ReadFile(dst)
