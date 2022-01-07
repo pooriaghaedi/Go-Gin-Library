@@ -53,14 +53,10 @@ func deleteBook(c *gin.Context) {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
-		// if Books.DeletedAt != nil {
 		db.Where("id = ?", id).Delete(&Books)
 		c.JSON(200, gin.H{"id #" + id: "deleted"})
-		// } else {
-		// c.JSON(200, gin.H{"id #" + id: "already deleted"})
-	}
 
-	// }
+	}
 
 }
 func getBookByID(c *gin.Context) {

@@ -6,10 +6,10 @@ Learning Gin with writing a Library backend
 - [x] create index path to get list of books
 - [x] create index path to get books by ID
 - [x] create path to add new books to library
-- [ ] create path to delete existing book from library
+- [x] create path to delete existing book from library
 - [ ] a path to edit existing books
 - [ ] add authentication for editing and adding the books
 - [ ] updating photos for books
-- [ ] add database for storing the data
+- [x] add database for storing the data
 - [ ] add validation to struct
 - [ ] error handling
