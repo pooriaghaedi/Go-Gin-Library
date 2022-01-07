@@ -102,7 +102,7 @@ func UploadBookcover(c *gin.Context) {
 		return
 	}
 
-	filename := filepath.Base(file.Filename)
+	filename := filepath.Base("public/" + file.Filename)
 	if err := c.SaveUploadedFile(file, filename); err != nil {
 		c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 		return
@@ -122,7 +122,7 @@ func main() {
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
 	router.PUT("/v1/upload/:id", UploadBookcover)
-	router.Static("/", "./public")
+	router.GET("/public")
 
 	router.Run("0.0.0.0:8080")
 }
