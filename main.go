@@ -37,13 +37,11 @@ var deletedBooks = []book{}
 
 // postusers adds an user from JSON received in the request body.
 func postBooks(c *gin.Context) {
-	var newBook book
-	if err := db.Create(&newBook).Error; err != nil {
-		fmt.Println(err)
-		// c.JSON(404, "Not Found")
-	} else {
-		c.IndentedJSON(http.StatusCreated, newBook)
-	}
+	var Books book
+	c.BindJSON(&Books)
+
+	db.Create(&Books)
+	c.JSON(200, Books)
 }
 
 func deleteBook(c *gin.Context) {
