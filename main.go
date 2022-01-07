@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pooriaghaedi/Go-Gin-Library/config"
-
-	// "gorm.io/driver/mysql"
-	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/jinzhu/gorm"
 )
@@ -93,14 +91,38 @@ func getBooks(c *gin.Context) {
 	}
 }
 
+func UploadBookcover(c *gin.Context) {
+	var Book book
+	id := c.Params.ByName("id")
+
+	// Source
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.String(http.StatusBadRequest, "get form err: %s", err.Error())
+		return
+	}
+
+	filename := filepath.Base(file.Filename)
+	if err := c.SaveUploadedFile(file, filename); err != nil {
+		c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
+		return
+	}
+	Book.Photo = file.Filename
+	db.Save(&Book)
+	c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
+}
+
 func main() {
 
 	router := gin.Default()
+	router.MaxMultipartMemory = 8 << 20 // 8 MiB
+	router.Static("/", "./public")
 	router.GET("/v1/books/", getBooks)
 	router.POST("/v1/books/", postBooks)
 	router.GET("/v1/books/:id", getBookByID)
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
+	router.PUT("/v1/upload/:id", UploadBookcover)
 
 	router.Run("0.0.0.0:8080")
 }
