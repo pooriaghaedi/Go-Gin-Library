@@ -40,7 +40,7 @@ func postBooks(c *gin.Context) {
 	var newBook book
 	if err := db.Create(&newBook).Error; err != nil {
 		fmt.Println(err)
-		c.AbortWithStatus(404)
+		c.JSON(404, "Not Found")
 	} else {
 		c.IndentedJSON(http.StatusCreated, newBook)
 	}
@@ -53,8 +53,13 @@ func deleteBook(c *gin.Context) {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
-		db.Where("id = ?", id).Delete(&Books)
-		c.JSON(200, gin.H{"id #" + id: "deleted"})
+		if Books.DeletedAt != nil {
+			db.Where("id = ?", id).Delete(&Books)
+			c.JSON(200, gin.H{"id #" + id: "deleted"})
+		} else {
+			c.JSON(200, gin.H{"id #" + id: "already deleted"})
+		}
+
 	}
 
 }
