@@ -40,7 +40,7 @@ func postBooks(c *gin.Context) {
 	var newBook book
 	if err := db.Create(&newBook).Error; err != nil {
 		fmt.Println(err)
-		c.JSON(404, "Not Found")
+		// c.JSON(404, "Not Found")
 	} else {
 		c.IndentedJSON(http.StatusCreated, newBook)
 	}
@@ -101,8 +101,8 @@ func getBooks(c *gin.Context) {
 func main() {
 
 	router := gin.Default()
-	router.GET("/v1/books", getBooks)
-	router.POST("/v1/books", postBooks)
+	router.GET("/v1/books/", getBooks)
+	router.POST("/v1/books/", postBooks)
 	router.GET("/v1/books/:id", getBookByID)
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
