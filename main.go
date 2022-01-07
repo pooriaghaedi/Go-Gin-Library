@@ -39,10 +39,16 @@ var deletedBooks = []book{}
 func postBooks(c *gin.Context) {
 	var newBook book
 	// c.BindJSON(&newBook)
-	fmt.Println(&newBook)
-	db.Create(&newBook)
+	// fmt.Println(&newBook)
 
-	c.IndentedJSON(http.StatusCreated, newBook)
+	if err := c.BindJSON(&newBook).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		db.Create(&newBook)
+		c.IndentedJSON(http.StatusCreated, newBook)
+	}
+
 }
 
 // func deleteBook(c *gin.Context) {
