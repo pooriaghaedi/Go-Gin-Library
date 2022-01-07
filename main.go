@@ -99,20 +99,27 @@ func UploadBookcover(c *gin.Context) {
 	id := c.Params.ByName("id")
 	fmt.Println(id)
 	// Source
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-		return
+
+	if err := db.Where("id = ?", id).First(&Book).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		file, err := c.FormFile("file")
+		if err != nil {
+			c.String(http.StatusBadRequest, "get form err: %s", err.Error())
+			return
+		}
+
+		// filename := filepath.Base("public/" + file.Filename)
+		if err := c.SaveUploadedFile(file, "public/"+file.Filename); err != nil {
+			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
+			Book.Photo = file.Filename
+			db.Where("id = ?", id).Update(&Book)
+			c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
+			return
+		}
 	}
 
-	// filename := filepath.Base("public/" + file.Filename)
-	if err := c.SaveUploadedFile(file, "public/"+file.Filename); err != nil {
-		c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-		return
-	}
-	Book.Photo = file.Filename
-	db.Save(&Book)
-	c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 }
 
 func Download(n string) (string, []byte, error) {
