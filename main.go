@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,9 @@ type book struct {
 	Publisher string `json:"publisher"`
 	Category  string `json:"category"`
 	Photo     string `json:"photo"`
+}
+type File struct {
+	Name string `uri:"name" binding:"required"`
 }
 
 // var books = []book{
@@ -110,7 +114,32 @@ func UploadBookcover(c *gin.Context) {
 	db.Save(&Book)
 	c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 }
+func Download(n string) (string, []byte, error) {
+	dst := fmt.Sprintf("%s/%s", "public", n)
+	b, err := ioutil.ReadFile(dst)
+	if err != nil {
+		return "", nil, err
+	}
+	m := http.DetectContentType(b[:512])
 
+	return m, b, nil
+}
+func GetBookcover(c *gin.Context) {
+
+	var f File
+	if err := c.ShouldBindUri(&f); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	m, cn, err := Download(f.Name)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err})
+		return
+	}
+	c.Header("Content-Disposition", "attachment; filename="+f.Name)
+	c.Data(http.StatusOK, m, cn)
+
+}
 func main() {
 
 	router := gin.Default()
