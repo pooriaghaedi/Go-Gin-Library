@@ -97,7 +97,6 @@ func getBooks(c *gin.Context) {
 func UploadBookcover(c *gin.Context) {
 	var Book book
 	id := c.Params.ByName("id")
-	fmt.Println(id)
 	// Source
 
 	if err := db.Where("id = ?", id).First(&Book).Error; err != nil {
@@ -113,7 +112,7 @@ func UploadBookcover(c *gin.Context) {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
 		}
-		db.Where("id = ?", id).Update(Book.Photo, file.Filename)
+		db.Model(&Book).Update(Book.Photo, file.Filename).Where("id = ?", id)
 		c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 	}
 
