@@ -109,15 +109,13 @@ func UploadBookcover(c *gin.Context) {
 			c.String(http.StatusBadRequest, "get form err: %s", err.Error())
 			return
 		}
-
-		// filename := filepath.Base("public/" + file.Filename)
 		if err := c.SaveUploadedFile(file, "public/"+file.Filename); err != nil {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-			Book.Photo = file.Filename
-			db.Where("id = ?", id).Update(&Book)
-			c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 			return
 		}
+		Book.Photo = file.Filename
+		db.Where("id = ?", id).Update(&Book)
+		c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 	}
 
 }
