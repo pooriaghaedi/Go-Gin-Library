@@ -17,16 +17,12 @@ var err error
 
 type book struct {
 	gorm.Model
-	// ID        uint   `json:"id"`
 	Name      string `json:"name"`
 	IBSN      string `json:"ibsn"`
 	Author    string `json:"author"`
 	Publisher string `json:"publisher"`
 	Category  string `json:"category"`
 	Photo     string `json:"photo"`
-	// CreatedAt time.Time `json:"created_at"`
-	// UpdatedAt time.Time `json:"updated_at"`
-	// DeletedAt time.Time `json:"deleted_at"`
 }
 
 // var books = []book{
@@ -35,7 +31,7 @@ type book struct {
 
 var deletedBooks = []book{}
 
-// postusers adds an user from JSON received in the request body.
+// postBooks adds an user from JSON received in the request body.
 func postBooks(c *gin.Context) {
 	var Books book
 	c.BindJSON(&Books)
@@ -53,7 +49,6 @@ func deleteBook(c *gin.Context) {
 	} else {
 		db.Where("id = ?", id).Delete(&Books)
 		c.JSON(200, gin.H{"id #" + id: "deleted"})
-
 	}
 
 }
@@ -66,8 +61,6 @@ func getBookByID(c *gin.Context) {
 	} else {
 		c.IndentedJSON(http.StatusOK, getbookbyid)
 	}
-
-	// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
 }
 
 func UpdateBooks(c *gin.Context) {
@@ -85,7 +78,7 @@ func UpdateBooks(c *gin.Context) {
 
 }
 
-// getUsers responds with the list of all Users as JSON.
+// getBooks responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
 	var Books []book
 	if err := db.Find(&Books).Error; err != nil {

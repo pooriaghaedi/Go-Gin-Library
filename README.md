@@ -9,7 +9,7 @@ Library management app using Gin Framework
 - [x] create path to delete existing book from library
 - [x] a path to edit existing books
 - [ ] add authentication for editing and adding the books
-- [ ] updating photos for books
+- [ ] uploading photos for books
 - [x] add database for storing the data
 - [ ] add validation to struct
 - [ ] error handling
