@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -102,8 +101,8 @@ func UploadBookcover(c *gin.Context) {
 		return
 	}
 
-	filename := filepath.Base("public/" + file.Filename)
-	if err := c.SaveUploadedFile(file, filename); err != nil {
+	// filename := filepath.Base("public/" + file.Filename)
+	if err := c.SaveUploadedFile(file, "public/"+file.Filename); err != nil {
 		c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 		return
 	}
