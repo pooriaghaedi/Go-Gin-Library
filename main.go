@@ -72,6 +72,21 @@ func getBookByID(c *gin.Context) {
 	// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
 }
 
+func UpdateBooks(c *gin.Context) {
+
+	var Book book
+	id := c.Params.ByName("id")
+	if err := db.Where("id = ?", id).First(&Book).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	}
+	c.BindJSON(&Book)
+
+	db.Save(&Book)
+	c.JSON(200, Book)
+
+}
+
 // getUsers responds with the list of all Users as JSON.
 func getBooks(c *gin.Context) {
 	var Books []book
@@ -90,6 +105,7 @@ func main() {
 	router.POST("/v1/books", postBooks)
 	router.GET("/v1/books/:id", getBookByID)
 	router.DELETE("/v1/books/:id", deleteBook)
+	router.PUT("/v1/books/:id", UpdateBooks)
 
 	router.Run("0.0.0.0:8080")
 }
