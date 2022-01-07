@@ -51,17 +51,18 @@ func postBooks(c *gin.Context) {
 
 }
 
-// func deleteBook(c *gin.Context) {
-// 	id := c.Param("id")
-// 	var deleteBook book
-// 	currentTime := time.Now()
+func deleteBook(c *gin.Context) {
+	id := c.Param("id")
+	var deleteBook book
+	if err := db.Where("id = ?", id).Delete(&deleteBook); err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		c.JSON(200, gin.H{"id #" + id: "deleted"})
+	}
 
-// 	// if err := c.BindJSON(&deleteBook); err != nil {
-// 	// 	fmt.Printf("error")
-// 	// 	return
-
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
-// }
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
+}
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 	var getbookbyid book
