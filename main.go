@@ -150,7 +150,7 @@ func main() {
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
 	router.PUT("/v1/upload/:id", UploadBookcover)
-	router.GET("/public")
+	router.GET("/v1/upload/", GetBookcover)
 
 	router.Run("0.0.0.0:8080")
 }
