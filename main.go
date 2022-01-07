@@ -31,7 +31,7 @@ type book struct {
 
 var deletedBooks = []book{}
 
-// postBooks adds an user from JSON received in the request body.
+// postBooks adds a book from JSON received in the request body.
 func postBooks(c *gin.Context) {
 	var Books book
 	c.BindJSON(&Books)
@@ -40,6 +40,7 @@ func postBooks(c *gin.Context) {
 	c.JSON(200, Books)
 }
 
+// deleteBook is used to delete a book with its ID.
 func deleteBook(c *gin.Context) {
 	id := c.Param("id")
 	var Books book
@@ -52,6 +53,8 @@ func deleteBook(c *gin.Context) {
 	}
 
 }
+
+// getBookByID is used to get a book with its ID.
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 	var getbookbyid book
@@ -63,6 +66,7 @@ func getBookByID(c *gin.Context) {
 	}
 }
 
+// UpdateBooks is used to update an existing book.
 func UpdateBooks(c *gin.Context) {
 
 	var Book book
@@ -78,7 +82,7 @@ func UpdateBooks(c *gin.Context) {
 
 }
 
-// getBooks responds with the list of all Users as JSON.
+// getBooks responds with the list of all Books as JSON.
 func getBooks(c *gin.Context) {
 	var Books []book
 	if err := db.Find(&Books).Error; err != nil {
