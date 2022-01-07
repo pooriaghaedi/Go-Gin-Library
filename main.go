@@ -111,11 +111,12 @@ func UploadBookcover(c *gin.Context) {
 		if err := c.SaveUploadedFile(file, "public/"+file.Filename); err != nil {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
+		} else {
+			db.Model(&Book).Where("id = ?", id).Update(Book.Photo, file.Filename)
+			c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 		}
-		db.Model(&Book).Where("id = ?", id).Update(Book.Photo, file.Filename)
-		c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
-	}
 
+	}
 }
 
 func Download(n string) (string, []byte, error) {
