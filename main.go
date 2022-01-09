@@ -141,7 +141,7 @@ func GetBookcover(c *gin.Context) {
 		fmt.Println(err)
 	}
 	fmt.Println(Book.Photo)
-	var f File
+	// var f File
 	if err := c.ShouldBindUri(Book.Photo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
