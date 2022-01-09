@@ -44,6 +44,7 @@ func postBooks(c *gin.Context) {
 // deleteBook is used to delete a book with its ID.
 func deleteBook(c *gin.Context) {
 	id := c.Param("id")
+
 	var Books book
 	if err := db.Where("id = ?", id).First(&Books).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -112,7 +113,7 @@ func UploadBookcover(c *gin.Context) {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
 		} else {
-			db.Model("books").Where("id = ?", id).Update(Book.Photo, "23123")
+			db.Model(&Book).Where("id = ?", id).Update(Book.Photo, "23123")
 			c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
 		}
 
