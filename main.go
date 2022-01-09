@@ -134,13 +134,19 @@ func Download(n string) (string, []byte, error) {
 }
 
 func GetBookcover(c *gin.Context) {
-
+	id := c.Params.ByName("id")
+	var Book book
+	if err := db.Where("id = ?", id).First(&Book).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	}
+	fmt.Println(Book.Photo)
 	var f File
-	if err := c.ShouldBindUri(&f); err != nil {
+	if err := c.ShouldBindUri(Book.Photo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	m, cn, err := Download(f.Name)
+	m, cn, err := Download(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err})
 		return
@@ -159,7 +165,7 @@ func main() {
 	router.DELETE("/v1/books/:id", deleteBook)
 	router.PUT("/v1/books/:id", UpdateBooks)
 	router.PUT("/v1/upload/:id", UploadBookcover)
-	router.GET("/v1/upload/:name", GetBookcover)
+	router.GET("/v1/upload/:id", GetBookcover)
 
 	router.Run("0.0.0.0:8080")
 }
