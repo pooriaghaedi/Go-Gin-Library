@@ -146,7 +146,7 @@ func GetBookcover(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	m, cn, err := Download(id)
+	m, cn, err := Download(Book.Photo)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err})
 		return
