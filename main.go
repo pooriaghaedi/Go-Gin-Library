@@ -113,7 +113,7 @@ func UploadBookcover(c *gin.Context) {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
 		} else {
-			if err := db.Model(&Book).Where("id = ?", id).Update(Book.Photo, "23123").Error; err != nil {
+			if err := db.Model(&Book).Where("id = ?", id).Update("photo", "23123").Error; err != nil {
 				fmt.Println(err)
 			}
 			c.String(http.StatusOK, "File %s uploaded successfully with fields name=%s and id=%s.", file.Filename, id)
