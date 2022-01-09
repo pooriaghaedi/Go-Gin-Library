@@ -142,7 +142,7 @@ func GetBookcover(c *gin.Context) {
 	}
 	fmt.Println(Book.Photo)
 	var f File
-	if err := c.ShouldBindUri(&f); err != nil {
+	if err := c.ShouldBindUri(Book.Photo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
@@ -151,7 +151,7 @@ func GetBookcover(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": err})
 		return
 	}
-	c.Header("Content-Disposition", "attachment; filename="+f.Name)
+	c.Header("Content-Disposition", "attachment; filename="+Book.Photo)
 	c.Data(http.StatusOK, m, cn)
 
 }
